@@ -35,6 +35,11 @@ namespace trail {
         );
 
         /**
+         * Default constructor. Initializes everything to be -1. Not intended for general usage
+         */
+        Robot();
+
+        /**
          * Calculates the time required to get the robot to 99.75% of its free speed, based on solving the ODE
          * given here: https://drive.google.com/file/d/0B_lA0xR4_viqbTJYanE4X3VnWE0/view [2] and calculating its
          * time constant.

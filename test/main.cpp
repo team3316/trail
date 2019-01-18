@@ -6,6 +6,7 @@
 #include "../src/Spline.h"
 #include "../src/utils.h"
 #include "../src/Waypoint.h"
+#include "../src/RobotTrajectory.h"
 
 #define EPSILON 1E-4 // Accuracy to 4 decimal places is good enough for us
 #define ASSERT_PT_EQ(pt1, pt2) ASSERT_NEAR(pt1[0], pt2[0], EPSILON); \
@@ -79,6 +80,23 @@ TEST(UtilsTest, WaypointDistance) {
     Waypoint p2(3, 4, 90);
 
     ASSERT_NEAR(p1.distanceToPoint(p2), 5, EPSILON);
+}
+
+TEST(TrajectoryTest, CreateTrajectory) {
+    Waypoints wps = {
+        Waypoint(0, 0, 0),
+        Waypoint(3, 4, 90)
+    };
+
+    RobotTrajectory trajectory(wps, mars);
+
+    auto curve = trajectory.calculateCurve();
+
+    for (int i = 0; i < trajectory.curveSize(); ++i) {
+        std::cout << "(" << curve[i](0, 0) << "," << curve[i](1, 0) << ")" << std::endl << std::flush;
+    }
+
+    free(curve);
 }
 
 int main(int argc, char **argv) {

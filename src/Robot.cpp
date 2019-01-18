@@ -14,6 +14,16 @@ trail::Robot::Robot(double mass, double baseWidth, double freeSpeed, double stal
     this->mNumOfDriveMotors = numOfDriveMotors;
 }
 
+trail::Robot::Robot() {
+    this->mMass = -1;
+    this->mBaseWidth = -1;
+    this->mFreeSpeed = -1;
+    this->mStallTorque = -1;
+    this->mGearRatio = -1;
+    this->mWheelRadius = -1;
+    this->mNumOfDriveMotors = -1;
+}
+
 double trail::Robot::timeToMaxVelocity(double i) {
     double m = this->mMass,
            vf = this->mFreeSpeed,

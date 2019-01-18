@@ -15,7 +15,7 @@ ADD_SUBDIRECTORY(lib/gtest)
 enable_testing()
 
 # Trail
-add_library(trail src/Robot.cpp src/Robot.h src/Spline.cpp src/Spline.h src/utils.cpp src/utils.h src/Waypoint.cpp src/Waypoint.h)
+add_library(trail src/Robot.cpp src/Robot.h src/Spline.cpp src/Spline.h src/utils.cpp src/utils.h src/Waypoint.cpp src/Waypoint.h src/RobotTrajectory.cpp src/RobotTrajectory.h)
 target_link_libraries(trail Eigen3::Eigen)
 
 # Unit testing w/googletest
