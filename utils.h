@@ -5,6 +5,6 @@
 #ifndef TRAIL_UTILS_H
 #define TRAIL_UTILS_H
 
-template <typename T> int sgn(T val);
+#define sgn(x) ((x < 0) ? -1 : ((x > 0) ? 1 : 0))
 
 #endif //TRAIL_UTILS_H
