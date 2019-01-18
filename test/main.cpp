@@ -5,6 +5,7 @@
 #include "../src/Robot.h"
 #include "../src/Spline.h"
 #include "../src/utils.h"
+#include "../src/Waypoint.h"
 
 #define EPSILON 1E-4 // Accuracy to 4 decimal places is good enough for us
 #define ASSERT_PT_EQ(pt1, pt2) ASSERT_NEAR(pt1[0], pt2[0], EPSILON); \
@@ -62,7 +63,7 @@ TEST(SplineTest, ControlPoints) {
     ASSERT_PT_EQ(d2p1, cps[5]);
 }
 
-TEST(UtilsTest, LengthIntegralTest) {
+TEST(UtilsTest, LengthIntegral) {
     auto traj = [](double t) { // Using a constant term as a derivative for simplicity
         Vector2d d;
         d << 3, 4;
@@ -71,6 +72,13 @@ TEST(UtilsTest, LengthIntegralTest) {
 
     double len = lengthIntegral(0, 1, traj);
     ASSERT_NEAR(len, 5, EPSILON);
+}
+
+TEST(UtilsTest, WaypointDistance) {
+    Waypoint p1(0, 0, 0);
+    Waypoint p2(3, 4, 90);
+
+    ASSERT_NEAR(p1.distanceToPoint(p2), 5, EPSILON);
 }
 
 int main(int argc, char **argv) {
