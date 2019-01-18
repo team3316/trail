@@ -15,6 +15,7 @@
  * Calculates a segment's length using its derivative, from t0 to t1.
  * The intergal is:
  *   I_t0^t1 sqrt((df_x(t))^2 + (df_y(t))^2)dt
+ * The implementation of the function is taken from the old dbug-trajectory project and optimized to C++.
  * @param t0 The lower bound of the integral, 0 <= t0 <= 1.
  * @param t1 The upper bound of the integral, 0 <= t0 <= 1.
  * @param df The function's derivative, as a function.
