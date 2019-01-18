@@ -2,13 +2,18 @@
 // Created by Jonathan Ohayon on 2019-01-17.
 //
 
+#include <iostream>
 #include <gtest/gtest.h>
 #include <Eigen/Dense>
 
 #include "../library.h"
 #include "../Spline.h"
 
+#define PI 3.14159265359
 #define EPSILON 1E-4
+#define RAD(x) x * PI / 180
+#define ASSERT_PT_EQ(pt1, pt2) ASSERT_NEAR(pt1[0], pt2[0], EPSILON); \
+    ASSERT_NEAR(pt1[1], pt2[1], EPSILON);
 
 using namespace trail;
 using namespace Eigen;
@@ -32,16 +37,28 @@ TEST(RobotTest, TimeToMax) {
 TEST(RobotTest, MaxAcceleration) {
     double amax = mars.maxAcceleration();
 
-    EXPECT_NEAR(amax, 47.6386, EPSILON);
+    EXPECT_NEAR(amax, 23.8193, EPSILON);
 }
 
-TEST(SplineTest, NewSpline) {
-    Spline spline(QUINTIC_HERMITE, {});
+TEST(SplineTest, ControlPoints) {
+    PointVector cps = {
+        {0.0, 1.0}, // p0
+        {cos(RAD(90)), sin(RAD(90))}, // dp0
+        {-sin(RAD(90)), cos(RAD(90))}, // d2p0
+        {3.0, 4.0}, // p1
+        {cos(0.0), sin(0.0)}, // dp1
+        {-sin(0.0), cos(0.0)} // d2p1
+    };
 
-    MatrixXd mat;
-    mat << QUINTIC_HERMITE_BASIS_MATRIX;
+    Spline spline(cps);
+    ASSERT_PT_EQ(spline.position(0), cps[0]);
+    ASSERT_PT_EQ(spline.position(1), cps[3]);
 
-    ASSERT_EQ(mat, spline.getBasisMatrix());
+    ASSERT_PT_EQ(spline.velocity(0), cps[1]);
+    ASSERT_PT_EQ(spline.velocity(1), cps[4]);
+
+    ASSERT_PT_EQ(spline.acceleration(0), cps[2]);
+    ASSERT_PT_EQ(spline.acceleration(1), cps[5]);
 }
 
 int main(int argc, char **argv) {
