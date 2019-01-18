@@ -30,5 +30,5 @@ double trail::Robot::maxAcceleration() {
            g = this->mGearRatio,
            r = this->mWheelRadius,
            n = this->mNumOfDriveMotors;
-    return (2 * n * ts * g) / (r * m);
+    return (n * ts * g) / (r * m);
 }
