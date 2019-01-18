@@ -6,7 +6,7 @@
 #include <gtest/gtest.h>
 #include <Eigen/Dense>
 
-#include "../library.h"
+#include "../Robot.h"
 #include "../Spline.h"
 
 #define PI 3.14159265359

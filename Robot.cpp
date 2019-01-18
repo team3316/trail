@@ -1,7 +1,7 @@
 #include <math.h>
 
 #include "utils.h"
-#include "library.h"
+#include "Robot.h"
 
 trail::Robot::Robot(double mass, double baseWidth, double freeSpeed, double stallTorque, double gearRatio, double wheelRadius,
              int numOfDriveMotors) {
