@@ -6,9 +6,7 @@
 #include "../src/Spline.h"
 #include "../src/utils.h"
 
-#define PI 3.14159265359
 #define EPSILON 1E-4 // Accuracy to 4 decimal places is good enough for us
-#define RAD(x) x * PI / 180
 #define ASSERT_PT_EQ(pt1, pt2) ASSERT_NEAR(pt1[0], pt2[0], EPSILON); \
     ASSERT_NEAR(pt1[1], pt2[1], EPSILON);
 
@@ -40,8 +38,8 @@ TEST(RobotTest, MaxAcceleration) {
 TEST(SplineTest, ControlPoints) {
     PointVector cps = {
         {0.0, 0.0}, // p0
-        {cos(RAD(90)), sin(RAD(90))}, // dp0
-        {-sin(RAD(90)), cos(RAD(90))}, // d2p0
+        {cos(radians(90)), sin(radians(90))}, // dp0
+        {-sin(radians(90)), cos(radians(90))}, // d2p0
         {3.0, 4.0}, // p1
         {cos(0.0), sin(0.0)}, // dp1
         {-sin(0.0), cos(0.0)} // d2p1
