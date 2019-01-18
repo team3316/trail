@@ -7,6 +7,10 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 # Googletest
+if (APPLE)
+    add_definitions(-DGTEST_USE_OWN_TR1_TUPLE)
+    add_definitions(-D__GLIBCXX__)
+endif (APPLE)
 ADD_SUBDIRECTORY(lib/gtest)
 enable_testing()
 
