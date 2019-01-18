@@ -42,7 +42,7 @@ TEST(RobotTest, MaxAcceleration) {
 
 TEST(SplineTest, ControlPoints) {
     PointVector cps = {
-        {0.0, 1.0}, // p0
+        {0.0, 0.0}, // p0
         {cos(RAD(90)), sin(RAD(90))}, // dp0
         {-sin(RAD(90)), cos(RAD(90))}, // d2p0
         {3.0, 4.0}, // p1
@@ -51,14 +51,20 @@ TEST(SplineTest, ControlPoints) {
     };
 
     Spline spline(cps);
-    ASSERT_PT_EQ(spline.position(0), cps[0]);
-    ASSERT_PT_EQ(spline.position(1), cps[3]);
+    Vector2d p0 = spline.position(0),
+             p1 = spline.position(1);
+    ASSERT_PT_EQ(p0, cps[0]);
+    ASSERT_PT_EQ(p1, cps[3]);
 
-    ASSERT_PT_EQ(spline.velocity(0), cps[1]);
-    ASSERT_PT_EQ(spline.velocity(1), cps[4]);
+    Vector2d dp0 = spline.velocity(0),
+             dp1 = spline.velocity(1);
+    ASSERT_PT_EQ(dp0, cps[1]);
+    ASSERT_PT_EQ(dp1, cps[4]);
 
-    ASSERT_PT_EQ(spline.acceleration(0), cps[2]);
-    ASSERT_PT_EQ(spline.acceleration(1), cps[5]);
+    Vector2d d2p0 = spline.acceleration(0),
+             d2p1 = spline.acceleration(1);
+    ASSERT_PT_EQ(d2p0, cps[2]);
+    ASSERT_PT_EQ(d2p1, cps[5]);
 }
 
 int main(int argc, char **argv) {
