@@ -6,8 +6,8 @@
 #include <gtest/gtest.h>
 #include <Eigen/Dense>
 
-#include "../Robot.h"
-#include "../Spline.h"
+#include "../src/Robot.h"
+#include "../src/Spline.h"
 
 #define PI 3.14159265359
 #define EPSILON 1E-4
