@@ -19,20 +19,45 @@ using PointVector = std::vector<Eigen::Vector2d>;
 
 namespace trail {
     typedef enum {
-        QUINTIC_HERMITE, CUBIC_HERMITE
-    } SplineType;
+        POSITION, VELOCITY, ACCELERATION
+    } CurveType;
 
     class Spline {
     private:
-        SplineType mType;
-        Eigen::MatrixXd mBasisMatrix;
-        PointVector mControlPoints;
+        Eigen::Matrix<double, 6, 6> mBasisMatrix; // The Hermite polynomial basis matrix
+        Eigen::Matrix<double, 6, 1> mControlPoints_x; // The x control points
+        Eigen::Matrix<double, 6, 1> mControlPoints_y; // The y control points
+
+        Eigen::Matrix<double, 1, 6> polynomialBasis(double t, CurveType type);
+        Eigen::Vector2d calculate(double t, CurveType type);
 
     public:
-        Spline(SplineType type, PointVector controlPoints);
+        /**
+         * Constructor
+         */
+        Spline(PointVector controlPoints);
         ~Spline() = default;
 
-        Eigen::MatrixXd getBasisMatrix();
+        /**
+         * Returns the spline's position curve in spline param t.
+         * @param t The spline parameter. 0 <= t <= 1
+         * @return A point in R^2, p(t)
+         */
+        Eigen::Vector2d position(double t);
+
+        /**
+         * Returns the spline's velocity (first derivative) curve in spline param t.
+         * @param t The spline parameter. 0 <= t <= 1
+         * @return A point in R^2, v(t)
+         */
+        Eigen::Vector2d velocity(double t);
+
+        /**
+         * Returns the spline's acceleration (second derivative) curve in spline param t.
+         * @param t The spline parameter. 0 <= t <= 1
+         * @return A point in R^2, v(t)
+         */
+        Eigen::Vector2d acceleration(double t);
     };
 }
 
