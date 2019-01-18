@@ -1,6 +1,7 @@
-#include "library.h"
+#include <math.h>
 
-#include <iostream>
+#include "utils.h"
+#include "library.h"
 
 trail::Robot::Robot(double mass, double baseWidth, double freeSpeed, double stallTorque, double gearRatio, double wheelRadius,
              int numOfDriveMotors) {
@@ -31,4 +32,10 @@ double trail::Robot::maxAcceleration() {
            r = this->mWheelRadius,
            n = this->mNumOfDriveMotors;
     return (n * ts * g) / (r * m);
+}
+
+double trail::Robot::distanceToMaxVelocity(double startVel, double endVel) {
+    double accSigned = this->maxAcceleration() * sgn(endVel - startVel);
+    double dvsq = pow(endVel, 2) - pow(startVel, 2);
+    return dvsq / (2 * accSigned);
 }
