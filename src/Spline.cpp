@@ -18,7 +18,6 @@
  *         Otherwise, the diff-th derivative of x^p.
  */
 double pow_diff(double x, int p, int diff) {
-    LOG("x: " << x << ", power: " << p << ", diff: " << diff);
     double coeff = 1;
     for (int i = 0; i < diff; i++) coeff *= p - i;
 
