@@ -1,13 +1,7 @@
-//
-// Created by Jonathan Ohayon on 2019-01-17.
-//
-
 #include <iostream>
 #include <math.h>
 
 #include "Spline.h"
-
-#define LOG(x) std::cout << x << std::endl << std::flush;
 
 /**
  * Calculates x to the power of p, with differentiation.

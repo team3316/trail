@@ -1,7 +1,3 @@
-//
-// Created by Jonathan Ohayon on 2019-01-17.
-//
-
 #include <iostream>
 #include <gtest/gtest.h>
 #include <Eigen/Dense>

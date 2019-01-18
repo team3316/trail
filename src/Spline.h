@@ -1,7 +1,3 @@
-//
-// Created by Jonathan Ohayon on 2019-01-17.
-//
-
 #ifndef TRAIL_SPLINE_H
 #define TRAIL_SPLINE_H
 
