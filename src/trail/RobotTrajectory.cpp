@@ -44,7 +44,6 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
 trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
     auto curve = (trail::Vector12d *) malloc(sizeof(trail::Vector12d) * this->mNumOfSegments * SPLINE_SAMPLES);
     std::vector<trail::Spline> splines = this->generateSplines();
-
     Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(SPLINE_SAMPLES, 0, 1);
 
     for (int i = 0; i < this->mNumOfSegments; ++i) {
@@ -57,22 +56,26 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
             double t = interval[j];
             Eigen::Vector2d pos = current.position(t);
             Eigen::Vector2d vel = current.velocity(t);
-            double heading = degrees(atan2(vel(1, 0), vel(0, 0)));
+            double theta = atan2(vel(1, 0), vel(0, 0));
+
+            double r = this->mRobot.getBaseWidth() / 2.0;
+            Eigen::Vector2d normal(-sin(theta), cos(theta));
+            Eigen::Vector2d leftPos = pos + r * normal;
+            Eigen::Vector2d rightPos = pos - r * normal;
 
             trail::Vector12d vec;
-
             vec(0, 0) = i + t; // t
             vec(1, 0) = (double) 1.0 / SPLINE_SAMPLES; // dt
             vec(2, 0) = lengthIntegral(0, t, df); // p(t)
             vec(3, 0) = 0; // v(t), TODO
             vec(4, 0) = 0; // a(t), TODO
-            vec(5, 0) = heading; // θ(t)
+            vec(5, 0) = 90 - degrees(theta); // θ(t)
             vec(6, 0) = pos(0, 0); // x(t)
             vec(7, 0) = pos(1, 0); // y(t)
-            vec(8, 0) = 0; // x_l(t), TODO
-            vec(9, 0) = 0; // y_l(t), TODO
-            vec(10, 0) = 0; // x_r(t), TODO
-            vec(11, 0) = 0; // y_r(t), TODO
+            vec(8, 0) = leftPos(0, 0); // x_l(t)
+            vec(9, 0) = leftPos(1, 0); // y_l(t)
+            vec(10, 0) = rightPos(0, 0); // x_r(t)
+            vec(11, 0) = rightPos(1, 0); // y_r(t)
 
             curve[j + (SPLINE_SAMPLES - 1) * i] = vec;
         }

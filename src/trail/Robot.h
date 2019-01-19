@@ -64,6 +64,11 @@ namespace trail {
          * @return The maximum acceleration
         */
         double maxAcceleration();
+
+        /**
+         * @return The wheelbase width
+         */
+        double getBaseWidth();
     };
 }
 

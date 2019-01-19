@@ -24,6 +24,10 @@ trail::Robot::Robot() {
     this->mNumOfDriveMotors = -1;
 }
 
+double trail::Robot::getBaseWidth() {
+    return this->mBaseWidth;
+}
+
 double trail::Robot::timeToMaxVelocity(double i) {
     double m = this->mMass,
            vf = this->mFreeSpeed,
