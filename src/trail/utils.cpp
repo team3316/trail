@@ -1,6 +1,6 @@
 #include "utils.h"
 
-#include <math.h>
+#include <cmath>
 
 double lengthIntegral(double t0, double t1, std::function<Eigen::Vector2d (double)> df, int n) {
     double dx = t1 - t0,

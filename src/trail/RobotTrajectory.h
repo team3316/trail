@@ -1,7 +1,3 @@
-//
-// Created by Jonathan Ohayon on 2019-01-18.
-//
-
 #ifndef TRAIL_ROBOTTRAJECTORY_H
 #define TRAIL_ROBOTTRAJECTORY_H
 
@@ -27,6 +23,8 @@ namespace trail {
 
     public:
         RobotTrajectory(trail::Waypoints waypoints, trail::Robot robot);
+
+        RobotTrajectory();
 
         trail::Vector12d *calculateTrajectory();
         int curveSize();

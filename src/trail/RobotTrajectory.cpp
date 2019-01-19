@@ -2,7 +2,7 @@
 // Created by Jonathan Ohayon on 2019-01-18.
 //
 
-#include <math.h>
+#include <cmath>
 
 #include "utils.h"
 
@@ -12,6 +12,10 @@ trail::RobotTrajectory::RobotTrajectory(trail::Waypoints waypoints, trail::Robot
     this->mWaypoints = waypoints;
     this->mRobot = robot;
     this->mNumOfSegments = (int) waypoints.size() - 1;
+}
+
+trail::RobotTrajectory::RobotTrajectory() {
+    this->mWaypoints = {};
 }
 
 std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {

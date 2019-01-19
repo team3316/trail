@@ -2,11 +2,11 @@
 #include <gtest/gtest.h>
 #include <Eigen/Dense>
 
-#include "../src/Robot.h"
-#include "../src/Spline.h"
-#include "../src/utils.h"
-#include "../src/Waypoint.h"
-#include "../src/RobotTrajectory.h"
+#include "../src/trail/Robot.h"
+#include "../src/trail/Spline.h"
+#include "../src/trail/utils.h"
+#include "../src/trail/Waypoint.h"
+#include "../src/trail/RobotTrajectory.h"
 
 #define EPSILON 1E-4 // Accuracy to 4 decimal places is good enough for us
 #define EXPECT_PT_EQ(pt1, pt2) EXPECT_NEAR(pt1[0], pt2[0], EPSILON); \
@@ -87,7 +87,8 @@ TEST(UtilsTest, WaypointDistance) {
 TEST(TrajectoryTest, CreateTrajectory) {
     Waypoints wps = {
         ORIGIN,
-        Waypoint(3, 4, 90)
+        Waypoint(3, 4, 90),
+        Waypoint(3, 6, 90)
     };
 
     RobotTrajectory trajectory(wps, mars);
@@ -96,6 +97,7 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     EXPECT_WP_EQ(ORIGIN, curve[0]);
     EXPECT_WP_EQ(Waypoint(3, 4, 90), curve[100]);
+    EXPECT_WP_EQ(Waypoint(3, 6, 90), curve[200]);
 
     free(curve);
 }
