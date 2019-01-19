@@ -11,7 +11,7 @@
 #include "Waypoint.h"
 #include "Spline.h"
 
-#define SPLINE_SAMPLES 100 // 10ms cycle
+#define SPLINE_SAMPLES 101 // 10ms cycle
 
 namespace trail {
     using Waypoints = std::vector<trail::Waypoint>;

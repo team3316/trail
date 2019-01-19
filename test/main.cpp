@@ -9,8 +9,10 @@
 #include "../src/RobotTrajectory.h"
 
 #define EPSILON 1E-4 // Accuracy to 4 decimal places is good enough for us
-#define ASSERT_PT_EQ(pt1, pt2) ASSERT_NEAR(pt1[0], pt2[0], EPSILON); \
-    ASSERT_NEAR(pt1[1], pt2[1], EPSILON);
+#define EXPECT_PT_EQ(pt1, pt2) EXPECT_NEAR(pt1[0], pt2[0], EPSILON); \
+    EXPECT_NEAR(pt1[1], pt2[1], EPSILON);
+#define EXPECT_WP_EQ(wp, pt) EXPECT_NEAR(wp.getX(), pt[0], EPSILON); \
+    EXPECT_NEAR(wp.getY(), pt[1], EPSILON); \
 
 using namespace trail;
 using namespace Eigen;
@@ -50,18 +52,18 @@ TEST(SplineTest, ControlPoints) {
     Spline spline(cps);
     Vector2d p0 = spline.position(0),
              p1 = spline.position(1);
-    ASSERT_PT_EQ(p0, cps[0]);
-    ASSERT_PT_EQ(p1, cps[3]);
+    EXPECT_PT_EQ(p0, cps[0]);
+    EXPECT_PT_EQ(p1, cps[3]);
 
     Vector2d dp0 = spline.velocity(0),
              dp1 = spline.velocity(1);
-    ASSERT_PT_EQ(dp0, cps[1]);
-    ASSERT_PT_EQ(dp1, cps[4]);
+    EXPECT_PT_EQ(dp0, cps[1]);
+    EXPECT_PT_EQ(dp1, cps[4]);
 
     Vector2d d2p0 = spline.acceleration(0),
              d2p1 = spline.acceleration(1);
-    ASSERT_PT_EQ(d2p0, cps[2]);
-    ASSERT_PT_EQ(d2p1, cps[5]);
+    EXPECT_PT_EQ(d2p0, cps[2]);
+    EXPECT_PT_EQ(d2p1, cps[5]);
 }
 
 TEST(UtilsTest, LengthIntegral) {
@@ -92,12 +94,8 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     auto curve = trajectory.calculateTrajectory();
 
-    std::stringstream str;
-    for (int i = 0; i < trajectory.curveSize(); ++i) {
-        str << "(" << std::to_string(curve[i](0, 0)) << "," << std::to_string(curve[i](1, 0)) << "),";
-    }
-
-    std::cout << str.str();
+    EXPECT_WP_EQ(ORIGIN, curve[0]);
+    EXPECT_WP_EQ(Waypoint(3, 4, 90), curve[100]);
 
     free(curve);
 }
