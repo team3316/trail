@@ -8,6 +8,7 @@
 #define PI 3.14159265359
 #define sgn(x) ((x < 0) ? -1 : ((x > 0) ? 1 : 0))
 #define radians(x) x * PI / 180
+#define degrees(x) x * 180 / PI
 
 /**
  * Calculates a segment's length using its derivative, from t0 to t1.

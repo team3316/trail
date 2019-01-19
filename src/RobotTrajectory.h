@@ -27,7 +27,7 @@ namespace trail {
     public:
         RobotTrajectory(trail::Waypoints waypoints, trail::Robot robot);
 
-        Eigen::Vector2d *calculateCurve();
+        Eigen::Vector3d *calculateTrajectory();
         int curveSize();
     };
 }

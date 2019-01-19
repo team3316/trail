@@ -2,6 +2,10 @@
 // Created by Jonathan Ohayon on 2019-01-18.
 //
 
+#include <math.h>
+
+#include "utils.h"
+
 #include "RobotTrajectory.h"
 
 trail::RobotTrajectory::RobotTrajectory(trail::Waypoints waypoints, trail::Robot robot) {
@@ -32,8 +36,8 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
     return splines;
 }
 
-Eigen::Vector2d *trail::RobotTrajectory::calculateCurve() {
-    auto curve = (Eigen::Vector2d *) malloc(sizeof(Eigen::Vector2d) * this->mNumOfSegments * SPLINE_SAMPLES);
+Eigen::Vector3d *trail::RobotTrajectory::calculateTrajectory() {
+    auto curve = (Eigen::Vector3d *) malloc(sizeof(Eigen::Vector3d) * this->mNumOfSegments * SPLINE_SAMPLES);
     std::vector<trail::Spline> splines = this->generateSplines();
 
     Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(SPLINE_SAMPLES, 0, 1);
@@ -41,7 +45,12 @@ Eigen::Vector2d *trail::RobotTrajectory::calculateCurve() {
     for (int i = 0; i < this->mNumOfSegments; ++i) {
         trail::Spline current = splines[i];
         for (int j = 0; j < SPLINE_SAMPLES; ++j) {
-            curve[j + (SPLINE_SAMPLES - 1) * i] = current.position(interval[j]);
+            double t = interval[j];
+            Eigen::Vector2d pos = current.position(t);
+            Eigen::Vector2d vel = current.velocity(t);
+            double heading = degrees(atan2(vel(1, 0), vel(0, 0)));
+
+            curve[j + (SPLINE_SAMPLES - 1) * i] = Eigen::Vector3d(pos(0, 0), pos(1, 0), heading);
         }
     }
 

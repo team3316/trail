@@ -90,7 +90,7 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     RobotTrajectory trajectory(wps, mars);
 
-    auto curve = trajectory.calculateCurve();
+    auto curve = trajectory.calculateTrajectory();
 
     std::stringstream str;
     for (int i = 0; i < trajectory.curveSize(); ++i) {
