@@ -49,16 +49,6 @@ namespace trail {
         double timeToMaxVelocity(double i = 4);
 
         /**
-         * Calculates the needed distance required for the robot to reach end_vel in maximum acceleration. Calculated using
-         * the kinematics formula:
-         *     end_vel^2 = start_vel^2 + 2 * acceleration * delta_x
-         * @param startVel The starting velocity.
-         * @param endVel The end velocity.
-         * @return The required distance.
-         */
-        double distanceToMaxVelocity(double startVel = 0, double endVel = 0);
-
-        /**
          * Calculates the maximum acceleration of the robot using Newton's 2nd law.
          * F_max = ma ==> a_max = F_max / m
          * @return The maximum acceleration
@@ -69,6 +59,11 @@ namespace trail {
          * @return The wheelbase width
          */
         double getBaseWidth();
+
+        /**
+         * @return The robot's free speed
+         */
+        double getFreeSpeed();
     };
 }
 

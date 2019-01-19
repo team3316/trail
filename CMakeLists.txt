@@ -22,8 +22,8 @@ add_library(
         src/trail/utils.cpp src/trail/utils.h
         src/trail/Waypoint.cpp src/trail/Waypoint.h
         src/trail/RobotTrajectory.cpp src/trail/RobotTrajectory.h
-        src/outputs/IOutput.h src/outputs/DesmosOutput.h
-        src/outputs/CSVOutput.h
+        src/trail/MotionProfile.cpp src/trail/MotionProfile.h
+        src/outputs/IOutput.h src/outputs/DesmosOutput.h src/outputs/CSVOutput.h
 )
 target_link_libraries(libtrail Eigen3::Eigen)
 

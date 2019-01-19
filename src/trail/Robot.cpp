@@ -28,6 +28,10 @@ double trail::Robot::getBaseWidth() {
     return this->mBaseWidth;
 }
 
+double trail::Robot::getFreeSpeed() {
+    return this->mFreeSpeed;
+}
+
 double trail::Robot::timeToMaxVelocity(double i) {
     double m = this->mMass,
            vf = this->mFreeSpeed,
@@ -46,10 +50,4 @@ double trail::Robot::maxAcceleration() {
            r = this->mWheelRadius,
            n = this->mNumOfDriveMotors;
     return (n * ts * g) / (r * m);
-}
-
-double trail::Robot::distanceToMaxVelocity(double startVel, double endVel) {
-    double accSigned = this->maxAcceleration() * sgn(endVel - startVel);
-    double dvsq = pow(endVel, 2) - pow(startVel, 2);
-    return dvsq / (2 * accSigned);
 }

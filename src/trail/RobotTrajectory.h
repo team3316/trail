@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "MotionProfile.h"
 #include "Robot.h"
 #include "Waypoint.h"
 #include "Spline.h"
@@ -15,6 +16,7 @@ namespace trail {
 
     class RobotTrajectory {
     private:
+        trail::MotionProfile mMotionProfile;
         trail::Waypoints mWaypoints;
         trail::Robot mRobot;
         int mNumOfSegments;

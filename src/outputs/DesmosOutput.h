@@ -33,6 +33,8 @@ namespace trail {
             printCurveData("Trajectory", 6, 7);
             printCurveData("Heading", 0, 5);
             printCurveData("Distance", 0, 2);
+            printCurveData("Velocity", 0, 3);
+            printCurveData("Acceleration", 0, 4);
             printCurveData("Left Trajectory", 8, 9);
             printCurveData("Right Trajectory", 10, 11);
 

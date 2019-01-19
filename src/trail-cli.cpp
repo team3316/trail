@@ -24,5 +24,5 @@ int main(int argc, char **argv) {
     RobotTrajectory trajectory(wps, mars);
 
     DesmosOutput(trajectory).render();
-    CSVOutput(trajectory, "test.csv").render();
+//    CSVOutput(trajectory, "aaa.csv").render();
 }
