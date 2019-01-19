@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+// Read: https://www.wikiwand.com/en/Simpson%27s_rule (Composite Simpson's Rule)
 double lengthIntegral(double t0, double t1, std::function<Eigen::Vector2d (double)> df, int n) {
     double dx = t1 - t0,
            f0 = hypot(df(t0)(0, 0), df(t1)(1, 0)),

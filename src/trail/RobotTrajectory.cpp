@@ -66,7 +66,7 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
 
             trail::Vector12d vec;
             vec(0, 0) = i + t; // t
-            vec(1, 0) = (double) 1.0 / SPLINE_SAMPLES; // dt
+            vec(1, 0) = (double) 1.0 / (SPLINE_SAMPLES - 1); // dt
             vec(2, 0) = lastDistance + lengthIntegral(0, t, df); // p(t)
             vec(3, 0) = 0; // v(t), TODO
             vec(4, 0) = 0; // a(t), TODO

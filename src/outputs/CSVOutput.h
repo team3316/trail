@@ -7,27 +7,43 @@
 
 #include "IOutput.h"
 
+#if defined(__APPLE__) || defined(__linux__) || defined(__unix__) // Unix
+    #include <unistd.h>
+    #define DELIMETER "/"
+    #define CWD getcwd
+#else // Windows
+    #include <direct.h>
+    #define DELIMETER "\\"
+    #define CWD _getcwd
+#endif
+
 namespace trail {
     class CSVOutput: public IOutput {
     private:
         std::ofstream mCSV;
 
+        std::string cwd() {
+            char temp[FILENAME_MAX];
+            CWD(temp, FILENAME_MAX);
+            return std::string(temp);
+        }
+
     public:
         CSVOutput(RobotTrajectory trajectory, const std::string &filename): IOutput(std::move(trajectory)) {
-            this->mCSV.open(filename);
+            this->mCSV.open(cwd() + DELIMETER + filename);
         }
 
         void render() override {
             auto curve = this->mTrajectory.calculateTrajectory();
             int len = this->mTrajectory.curveSize();
 
-            this->mCSV << "t,dt,s,v,a,theta,x,y,xl,yl,xr,yr";
+            this->mCSV << "t,dt,s,v,a,theta,x,y,xl,yl,xr,yr\n";
 
             for (int i = 0; i < len - 1; ++i) {
                 trail::Vector12d current = curve[i];
 
                 for (int j = 0; j < 12; ++j) {
-                    this->mCSV << current(j, 0);
+                    this->mCSV << std::to_string(current(j, 0));
                     if (j != 11) this->mCSV << ",";
                 }
 
