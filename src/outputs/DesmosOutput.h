@@ -21,11 +21,11 @@ namespace trail {
 
             auto printCurveData = [&curve, &len] (std::string title, int i0, int i1) {
                 print(title + ":");
-                for (int i = 0; i < len; ++i) {
+                for (int i = 0; i < len - 1; ++i) {
                     trail::Vector12d current = curve[i];
                     std::cout << "(" << std::to_string(current(i0, 0)) << "," << std::to_string(current(i1, 0)) << ")";
 
-                    if (i != len - 1) std::cout << ",";
+                    if (i != len - 2) std::cout << ",";
                 }
                 std::cout << std::endl << std::flush;
             };
