@@ -1,5 +1,6 @@
 #include "trail/RobotTrajectory.h"
 #include "outputs/DesmosOutput.h"
+#include "outputs/CSVOutput.h"
 
 using namespace trail;
 
@@ -21,6 +22,7 @@ int main(int argc, char **argv) {
     };
 
     RobotTrajectory trajectory(wps, mars);
-    DesmosOutput output(trajectory);
-    output.render();
+
+    DesmosOutput(trajectory).render();
+    CSVOutput(trajectory, "test.csv").render();
 }
