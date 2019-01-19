@@ -17,11 +17,10 @@ int main(int argc, char **argv) {
 
     Waypoints wps = {
         ORIGIN,
-        Waypoint(0, 1, 0),
-//        Waypoint(1, 2, 45)
+        Waypoint(0, 1, 0)
     };
 
     RobotTrajectory trajectory(wps, mars);
 
-    DesmosOutput(trajectory).render();
+    CSVOutput(trajectory, "test.csv").render();
 }

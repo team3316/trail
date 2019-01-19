@@ -93,13 +93,14 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     RobotTrajectory trajectory(wps, mars);
 
-    auto curve = trajectory.calculateTrajectory();
+    Vector12d *curve; int len;
+    std::tie(curve, len) = trajectory.calculateTrajectory();
 
     EXPECT_WP_EQ(ORIGIN, curve[0]);
     EXPECT_WP_EQ(Waypoint(3, 4, 90), curve[100]);
     EXPECT_WP_EQ(Waypoint(3, 6, 90), curve[200]);
 
-    free(curve);
+    std::free(curve);
 }
 
 int main(int argc, char **argv) {
