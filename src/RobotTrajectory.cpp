@@ -30,6 +30,7 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
             next.firstDerivative(1.5 * dist),
             next.secondDerivative()
         };
+
         splines.emplace_back(Spline(points));
     }
 

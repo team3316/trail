@@ -7,7 +7,7 @@
 trail::Waypoint::Waypoint(double x, double y, double theta) {
     this->mX = x;
     this->mY = y;
-    this->mTheta = radians(90 - theta);
+    this->mTheta = radians(90.0 - theta);
 }
 
 double trail::Waypoint::getX() {

@@ -84,7 +84,7 @@ TEST(UtilsTest, WaypointDistance) {
 
 TEST(TrajectoryTest, CreateTrajectory) {
     Waypoints wps = {
-        Waypoint(0, 0, 0),
+        ORIGIN,
         Waypoint(3, 4, 90)
     };
 
@@ -94,7 +94,7 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     std::stringstream str;
     for (int i = 0; i < trajectory.curveSize(); ++i) {
-        str << "(" << curve[i](0, 0) << "," << curve[i](1, 0) << "),";
+        str << "(" << std::to_string(curve[i](0, 0)) << "," << std::to_string(curve[i](1, 0)) << "),";
     }
 
     std::cout << str.str();

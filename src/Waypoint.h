@@ -3,6 +3,8 @@
 
 #include <Eigen/Dense>
 
+#define ORIGIN Waypoint(0.0, 0.0, 0.0)
+
 namespace trail {
     class Waypoint {
     private:
