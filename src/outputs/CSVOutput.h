@@ -34,8 +34,9 @@ namespace trail {
         }
 
         void render() override {
-            auto curve = this->mTrajectory.calculateTrajectory();
-            int len = this->mTrajectory.curveSize();
+            trail::Vector12d *curve;
+            int len;
+            std::tie(curve, len) = this->mTrajectory.calculateTrajectory();
 
             this->mCSV << "t,dt,s,v,a,theta,x,y,xl,yl,xr,yr\n";
 

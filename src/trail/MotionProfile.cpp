@@ -39,7 +39,7 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
     if (this->mMinDistance == this->mFullDistance) { // Shouldn't use the other implementation
         if (0 <= t && t <= timeToCruise) {
             return Eigen::Vector3d(
-                this->mMaxAcceleration * t * t, // Position
+                this->mMaxAcceleration * t * t / 2, // Position
                 this->mMaxAcceleration * t, // Velocity
                 this->mMaxAcceleration // Acceleration
             );
@@ -47,7 +47,7 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
 
         if (timeToCruise <= t && t <= 2 * timeToCruise) {
             return Eigen::Vector3d(
-                -this->mMaxAcceleration * t * t, // Position
+                -this->mMaxAcceleration * t * t / 2, // Position
                 -this->mMaxAcceleration * t, // Velocity
                 -this->mMaxAcceleration // Acceleration
             );
@@ -55,29 +55,32 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
     } else {
         double distCruise = this->mFullDistance - this->mMinDistance; // The amount of distance we're going to do in cruise
         double timeInCruise = (distCruise / this->mCruiseVelocity); // Acceleration in cruising velocity is zero
+        double timeTotal = (2 * timeToCruise) + timeInCruise;
 
         if (0 <= t && t < timeToCruise) { // Acceleration period
             return Eigen::Vector3d(
-                this->mMaxAcceleration * t * t, // Position
+                this->mMaxAcceleration * t * t / 2, // Position
                 this->mMaxAcceleration * t, // Velocity
                 this->mMaxAcceleration // Acceleration
             );
         }
 
-        std::cout << (2 * timeToCruise) + timeInCruise << ", " << t << std::endl << std::flush;
 
         if (timeToCruise <= t && t < timeToCruise + timeInCruise) { // Cruising period
+            double matcher = (this->mMaxAcceleration * timeToCruise * timeToCruise / 2) - this->mCruiseVelocity * timeToCruise;
             return Eigen::Vector3d(
-                this->mCruiseVelocity * t, // Position
+                this->mCruiseVelocity * t + matcher, // Position
                 this->mCruiseVelocity, // Velocity
                 0 // Acceleration
             );
         }
 
-        if (timeToCruise + timeInCruise <= t && t <= (2 * timeToCruise) + timeInCruise) { // Deceleration period
+        if (timeToCruise + timeInCruise <= t && t <= timeTotal) { // Deceleration period
+            double dt = t - timeTotal;
+            double matcher = this->mCruiseVelocity * (timeTotal - timeToCruise);
             return Eigen::Vector3d(
-                -this->mMaxAcceleration * t * t, // Position
-                -this->mMaxAcceleration * t, // Velocity
+                -this->mMaxAcceleration * dt * dt / 2 + matcher, // Position
+                -this->mMaxAcceleration * dt, // Velocity
                 -this->mMaxAcceleration // Acceleration
             );
         }

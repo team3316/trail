@@ -2,13 +2,14 @@
 #define TRAIL_ROBOTTRAJECTORY_H
 
 #include <vector>
+#include <tuple>
 
 #include "MotionProfile.h"
 #include "Robot.h"
 #include "Waypoint.h"
 #include "Spline.h"
 
-#define SPLINE_SAMPLES 101 // 10ms cycle
+#define DT 0.01 // Cycle time
 
 namespace trail {
     using Waypoints = std::vector<trail::Waypoint>;
@@ -28,7 +29,7 @@ namespace trail {
 
         RobotTrajectory();
 
-        trail::Vector12d *calculateTrajectory();
+        std::tuple<trail::Vector12d *, int> calculateTrajectory();
         int curveSize();
     };
 }

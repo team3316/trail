@@ -2,6 +2,7 @@
 #define TRAIL_DESMOSOUTPUT_H
 
 #include <iostream>
+#include <tuple>
 
 #include "../trail/RobotTrajectory.h"
 
@@ -16,16 +17,17 @@ namespace trail {
 
     public:
         void render() override {
-            auto curve = this->mTrajectory.calculateTrajectory();
-            int len = this->mTrajectory.curveSize();
+            trail::Vector12d *curve;
+            int len;
+            std::tie(curve, len) = this->mTrajectory.calculateTrajectory();
 
             auto printCurveData = [&curve, &len] (std::string title, int i0, int i1) {
                 print(title + ":");
-                for (int i = 0; i < len - 1; ++i) {
+                for (int i = 0; i < len; ++i) {
                     trail::Vector12d current = curve[i];
                     std::cout << "(" << std::to_string(current(i0, 0)) << "," << std::to_string(current(i1, 0)) << ")";
 
-                    if (i != len - 2) std::cout << ",";
+                    if (i != len - 1) std::cout << ",";
                 }
                 std::cout << std::endl << std::flush;
             };

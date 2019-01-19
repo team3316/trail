@@ -47,10 +47,8 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
     return splines;
 }
 
-trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
-    auto curve = (trail::Vector12d *) std::malloc(sizeof(trail::Vector12d) * this->mNumOfSegments * SPLINE_SAMPLES);
+std::tuple<trail::Vector12d *, int> trail::RobotTrajectory::calculateTrajectory() {
     std::vector<trail::Spline> splines = this->generateSplines();
-    Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(SPLINE_SAMPLES, 0, 1);
 
     double totalDistance = 0;
     for (auto spline: splines) {
@@ -61,13 +59,16 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
 
     this->mMotionProfile.setDistance(totalDistance);
     double totalTime = this->mMotionProfile.getTotalTime();
-    double dt = totalTime / (double) this->curveSize();
+    int samplesPerSpline = (int) ceil(totalTime / DT / this->mNumOfSegments);
+
+    auto curve = (trail::Vector12d *) std::malloc(sizeof(trail::Vector12d) * this->mNumOfSegments * samplesPerSpline);
+    Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(samplesPerSpline, 0, 1);
 
     double lastTime = 0;
     for (int i = 0; i < this->mNumOfSegments; ++i) {
         trail::Spline current = splines[i];
 
-        for (int j = 0; j < SPLINE_SAMPLES; ++j) {
+        for (int j = 0; j < samplesPerSpline; ++j) {
             double percentage = interval[j];
             Eigen::Vector2d pos = current.position(percentage);
             Eigen::Vector2d vel = current.velocity(percentage);
@@ -82,7 +83,7 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
 
             trail::Vector12d vec;
             vec(0, 0) = lastTime; // t
-            vec(1, 0) = dt; // dt
+            vec(1, 0) = DT; // dt
             vec(2, 0) = mpState(0, 0); // p(t)
             vec(3, 0) = mpState(1, 0); // v(t)
             vec(4, 0) = mpState(2, 0); // a(t)
@@ -94,15 +95,11 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
             vec(10, 0) = rightPos(0, 0); // x_r(t)
             vec(11, 0) = rightPos(1, 0); // y_r(t)
 
-            curve[j + (SPLINE_SAMPLES - 1) * i] = vec;
+            curve[j + (samplesPerSpline * i)] = vec;
 
-            lastTime += dt;
+            lastTime += DT;
         }
     }
 
-    return curve;
-}
-
-int trail::RobotTrajectory::curveSize() {
-    return this->mNumOfSegments * SPLINE_SAMPLES;
+    return std::make_tuple(curve, this->mNumOfSegments * samplesPerSpline);
 }
