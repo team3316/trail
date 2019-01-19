@@ -36,7 +36,7 @@ namespace trail {
             printCurveData("Left Trajectory", 8, 9);
             printCurveData("Right Trajectory", 10, 11);
 
-            free(curve);
+            std::free(curve);
         }
     };
 }

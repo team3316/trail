@@ -42,7 +42,7 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
 }
 
 trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
-    auto curve = (trail::Vector12d *) malloc(sizeof(trail::Vector12d) * this->mNumOfSegments * SPLINE_SAMPLES);
+    auto curve = (trail::Vector12d *) std::malloc(sizeof(trail::Vector12d) * this->mNumOfSegments * SPLINE_SAMPLES);
     std::vector<trail::Spline> splines = this->generateSplines();
     Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(SPLINE_SAMPLES, 0, 1);
 
