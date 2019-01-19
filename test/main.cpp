@@ -92,9 +92,12 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     auto curve = trajectory.calculateCurve();
 
+    std::stringstream str;
     for (int i = 0; i < trajectory.curveSize(); ++i) {
-        std::cout << "(" << curve[i](0, 0) << "," << curve[i](1, 0) << ")" << std::endl << std::flush;
+        str << "(" << curve[i](0, 0) << "," << curve[i](1, 0) << "),";
     }
+
+    std::cout << str.str();
 
     free(curve);
 }

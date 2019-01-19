@@ -2,8 +2,6 @@
 // Created by Jonathan Ohayon on 2019-01-18.
 //
 
-#include <iostream>
-
 #include "RobotTrajectory.h"
 
 trail::RobotTrajectory::RobotTrajectory(trail::Waypoints waypoints, trail::Robot robot) {
@@ -42,9 +40,8 @@ Eigen::Vector2d *trail::RobotTrajectory::calculateCurve() {
 
     for (int i = 0; i < this->mNumOfSegments; ++i) {
         trail::Spline current = splines[i];
-
         for (int j = 0; j < SPLINE_SAMPLES; ++j) {
-            curve[i + (SPLINE_SAMPLES - 1) * j] = current.position(interval[j]);
+            curve[j + (SPLINE_SAMPLES - 1) * i] = current.position(interval[j]);
         }
     }
 
