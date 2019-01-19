@@ -46,6 +46,7 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
     std::vector<trail::Spline> splines = this->generateSplines();
     Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(SPLINE_SAMPLES, 0, 1);
 
+    double lastDistance = 0;
     for (int i = 0; i < this->mNumOfSegments; ++i) {
         trail::Spline current = splines[i];
         auto df = [&current] (double t) {
@@ -66,7 +67,7 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
             trail::Vector12d vec;
             vec(0, 0) = i + t; // t
             vec(1, 0) = (double) 1.0 / SPLINE_SAMPLES; // dt
-            vec(2, 0) = lengthIntegral(0, t, df); // p(t)
+            vec(2, 0) = lastDistance + lengthIntegral(0, t, df); // p(t)
             vec(3, 0) = 0; // v(t), TODO
             vec(4, 0) = 0; // a(t), TODO
             vec(5, 0) = 90 - degrees(theta); // θ(t)
@@ -79,6 +80,8 @@ trail::Vector12d *trail::RobotTrajectory::calculateTrajectory() {
 
             curve[j + (SPLINE_SAMPLES - 1) * i] = vec;
         }
+
+        lastDistance += lengthIntegral(0, 1, df);
     }
 
     return curve;

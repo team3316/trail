@@ -16,7 +16,8 @@ int main(int argc, char **argv) {
 
     Waypoints wps = {
         ORIGIN,
-        Waypoint(3, 4, 90)
+        Waypoint(2, 4, 90),
+        Waypoint(4, 0, 180)
     };
 
     RobotTrajectory trajectory(wps, mars);
