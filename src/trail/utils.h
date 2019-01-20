@@ -23,4 +23,32 @@
  */
 double lengthIntegral(double t0, double t1, std::function<Eigen::Vector2d (double)> df, int n = LENGTH_INTEGRAL_SAMPLES);
 
+/**
+ * Unit conversion - meters to wheel rotations.
+ * @param m The amount of meters to convert to wheel rotations
+ * @param r The wheel radius, in meters
+ * @param g The gearing ratio between the encoder and the wheel. Defaults to 1
+ * @return The amount of wheel rotations in m
+ */
+double meterToRotations(double m, double r, double g = 1.0);
+
+/**
+ * Unit conversion - meters to Talon SRX native units.
+ * @param m The amount of meters to convert to native units
+ * @param r The wheel radius, in meters
+ * @param nuPerRot The amount of native units per rotation. Defaults to 1024 (Bourns PPR)
+ * @param g The gearing ratio between the encoder and the wheel. Defaults to 1
+ * @return The amount of native units in m
+ */
+double meterToNativeUnits(double m, double r, double nuPerRot = 1024.0, double g = 1.0);
+
+/**
+ * Unit conversion - meters per second to rpm.
+ * @param m The amount of m/s to convert to rpm
+ * @param r The wheel radius, in meters
+ * @param g The gearing ratio between the encoder and the wheel. Defaults to 1
+ * @return The amount of rpm in m
+ */
+double mpsToRpm(double m, double r, double g = 1);
+
 #endif //TRAIL_UTILS_H

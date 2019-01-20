@@ -26,3 +26,19 @@ double lengthIntegral(double t0, double t1, std::function<Eigen::Vector2d (doubl
 
     return (dx / (3 * n)) * (f0 + sum1 + sum2 + fn);
 }
+
+double meterToRotations(double m, double r, double g) {
+    return g * m / (2 * PI * r);
+}
+
+double meterToNativeUnits(double m, double r, double nuPerRot, double g) {
+    return nuPerRot * g * m / (2 * PI * r);
+}
+
+double mpsToRpm(double m, double r, double g) {
+   return 60 * g * m / (2 * PI * r);
+}
+
+double mpsToNuPer100ms(double m, double r, double g) {
+    
+}
