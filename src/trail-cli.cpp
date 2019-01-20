@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
     Robot mars(
         45.3592, // Mass - kg
         0.591312, // Robot base width - m
-        5.0048, // Free speed - m/s
+        4.689288457, // Free speed - m/s
         2.42, // Motor's stall torque - Nm
         5.67, // Gearbox gear ratio
         0.0508, // Wheel radis - m
@@ -22,5 +22,6 @@ int main(int argc, char **argv) {
 
     RobotTrajectory trajectory(wps, mars);
 
-    CSVOutput(trajectory, "test.csv").render();
+    DesmosOutput(trajectory).render();
+//    CSVOutput(trajectory, "test.csv").render();
 }
