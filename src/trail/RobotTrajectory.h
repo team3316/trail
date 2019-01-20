@@ -13,7 +13,7 @@
 
 namespace trail {
     using Waypoints = std::vector<trail::Waypoint>;
-    using Vector12d = Eigen::Matrix<double, 12, 1>;
+    using Vector13d = Eigen::Matrix<double, 13, 1>;
 
     class RobotTrajectory {
     private:
@@ -29,7 +29,7 @@ namespace trail {
 
         RobotTrajectory();
 
-        std::tuple<trail::Vector12d *, int> calculateTrajectory();
+        std::tuple<trail::Vector13d *, int> calculateTrajectory();
         int curveSize();
     };
 }

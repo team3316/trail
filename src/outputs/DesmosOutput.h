@@ -17,14 +17,14 @@ namespace trail {
 
     public:
         void render() override {
-            trail::Vector12d *curve;
+            trail::Vector13d *curve;
             int len;
             std::tie(curve, len) = this->mTrajectory.calculateTrajectory();
 
             auto printCurveData = [&curve, &len] (std::string title, int i0, int i1) {
                 print(title + ":");
                 for (int i = 0; i < len; ++i) {
-                    trail::Vector12d current = curve[i];
+                    trail::Vector13d current = curve[i];
                     std::cout << "(" << std::to_string(current(i0, 0)) << "," << std::to_string(current(i1, 0)) << ")";
 
                     if (i != len - 1) std::cout << ",";
@@ -32,13 +32,14 @@ namespace trail {
                 std::cout << std::endl << std::flush;
             };
 
-            printCurveData("Trajectory", 6, 7);
+            printCurveData("Trajectory", 7, 8);
             printCurveData("Heading", 0, 5);
+            printCurveData("Angular Velocity", 0, 6);
             printCurveData("Distance", 0, 2);
             printCurveData("Velocity", 0, 3);
             printCurveData("Acceleration", 0, 4);
-            printCurveData("Left Trajectory", 8, 9);
-            printCurveData("Right Trajectory", 10, 11);
+            printCurveData("Left Trajectory", 9, 10);
+            printCurveData("Right Trajectory", 11, 12);
 
             std::free(curve);
         }
