@@ -2,14 +2,18 @@
 #define TRAIL_WAYPOINT_H
 
 #include <Eigen/Dense>
+#include <nlohmann/json.hpp>
 
 #define ORIGIN Waypoint(0.0, 0.0, 0.0)
+
+using json = nlohmann::json;
 
 namespace trail {
     class Waypoint {
     private:
         double mX;
         double mY;
+        double mHeading;
         double mTheta;
 
     public:
@@ -20,17 +24,23 @@ namespace trail {
          * @param theta The robot's angle, in degrees
          */
         Waypoint(double x, double y, double theta);
+        Waypoint() = default;
         ~Waypoint() = default;
 
         /**
          * @return The x coordinate of the selected Waypoint
          */
-        double getX();
+        double getX() const;
 
         /**
          * @return The y coordinate of the selected Waypoint
          */
-        double getY();
+        double getY() const;
+
+        /**
+         * @return The heading angle of the selected Waypoint
+         */
+        double getHeading() const;
 
         /**
          * Calculates the required first derivative in order to keep the spline in the desired angle.
@@ -53,6 +63,20 @@ namespace trail {
          */
         double distanceToPoint(trail::Waypoint otherPoint);
     };
+
+    /**
+     * Parses a Waypoint from a JSON object
+     * @param json A pointer to the JSON object you want to parse from
+     * @param wp The Waypoint to serialize into
+     */
+    void from_json(const json &json, trail::Waypoint &wp);
+
+    /**
+     * Serializes a Waypoint into a JSON object
+     * @param json A pointer to the JSON object you want to serialize into
+     * @param wp The Waypoint you want to serialize
+     */
+    void to_json(json &json, const trail::Waypoint &wp);
 }
 
 #endif //TRAIL_WAYPOINT_H
