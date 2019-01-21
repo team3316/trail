@@ -51,3 +51,7 @@ double trail::Robot::maxAcceleration() {
            n = this->mNumOfDriveMotors;
     return (n * ts * g) / (r * m);
 }
+
+trail::Robot trail::Robot::fromJSON(std::string filename) {
+    return trail::Robot();
+}

@@ -1,6 +1,8 @@
 #ifndef TRAIL_LIBRARY_H
 #define TRAIL_LIBRARY_H
 
+#include <string>
+
 namespace trail {
     class Robot {
     private:
@@ -64,6 +66,8 @@ namespace trail {
          * @return The robot's free speed
          */
         double getFreeSpeed();
+
+        static trail::Robot fromJSON(std::string filename);
     };
 }
 

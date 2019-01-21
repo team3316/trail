@@ -2,13 +2,41 @@
 #define TRAIL_UTILS_H
 
 #include <Eigen/Dense>
+#include <iostream>
+#include <fstream>
 #include <functional>
+
+#if defined(__APPLE__) || defined(__linux__) || defined(__unix__) // Unix
+    #include <unistd.h>
+    #define DELIMETER "/"
+    #define CWD getcwd
+#else // Windows
+#include <direct.h>
+    #define DELIMETER "\\"
+    #define CWD _getcwd
+#endif
 
 #define LENGTH_INTEGRAL_SAMPLES 600 // The default number of samples for calculating spline length
 #define PI 3.14159265359
 #define sgn(x) ((x < 0) ? -1 : ((x > 0) ? 1 : 0))
 #define radians(x) ((x) * PI / 180)
 #define degrees(x) ((x) * 180 / PI)
+
+#define LOGD(x) (std::cout << x << std::endl << std::flush)
+#define LOGE(x) (std::cerr << x << std::endl << std::flush)
+
+/**
+ * @return The current working directory. Should be cross-platform but didn't check on Windows and Linux yet.
+ */
+std::string cwd();
+
+/**
+ * Reads a file.
+ * @param filename The filename of the file to read
+ * @param content A pointer to the string that'll hold the file contents
+ * @return An error code - 0 is OK, -1 means the file couldn't be read
+ */
+int readFile(const std::string &filename, std::string *content);
 
 /**
  * Calculates a segment's length using its derivative, from t0 to t1.

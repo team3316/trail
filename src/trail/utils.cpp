@@ -2,6 +2,28 @@
 
 #include <cmath>
 
+std::string cwd() {
+    char temp[FILENAME_MAX];
+    CWD(temp, FILENAME_MAX);
+    return std::string(temp);
+}
+
+int readFile(const std::string &filename, std::string *content) {
+    std::string line, total;
+    std::ifstream file(filename);
+
+    if (file.is_open()) {
+        while (std::getline(file, line)) {
+            total += line + "\n";
+        }
+        file.close();
+        content->assign(total);
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
 // Read: https://www.wikiwand.com/en/Simpson%27s_rule (Composite Simpson's Rule)
 double lengthIntegral(double t0, double t1, std::function<Eigen::Vector2d (double)> df, int n) {
     double dx = t1 - t0,
@@ -40,5 +62,5 @@ double mpsToRpm(double m, double r, double g) {
 }
 
 double mpsToNuPer100ms(double m, double r, double g) {
-    
+    return -3316.0; // TODO - Implement
 }

@@ -2,26 +2,39 @@
 #include "outputs/DesmosOutput.h"
 #include "outputs/CSVOutput.h"
 
+#include <iostream>
+#include <nlohmann/json.hpp>
+
 using namespace trail;
 
 int main(int argc, char **argv) {
-    Robot mars(
-        45.3592, // Mass - kg
-        0.591312, // Robot base width - m
-        4.689288457, // Free speed - m/s
-        2.42, // Motor's stall torque - Nm
-        5.67, // Gearbox gear ratio
-        0.0508, // Wheel radis - m
-        4 // Number of motors on drivetrain
-    );
-
-    Waypoints wps = {
-        ORIGIN,
-        Waypoint(0, 1, 0)
-    };
-
-    RobotTrajectory trajectory(wps, mars);
-
-    DesmosOutput(trajectory).render();
+//    Robot mars(
+//        45.3592, // Mass - kg
+//        0.591312, // Robot base width - m
+//        4.689288457, // Free speed - m/s
+//        2.42, // Motor's stall torque - Nm
+//        5.67, // Gearbox gear ratio
+//        0.0508, // Wheel radis - m
+//        4 // Number of motors on drivetrain
+//    );
+//
+//    Waypoints wps = {
+//        ORIGIN,
+//        Waypoint(0, 1, 0)
+//    };
+//
+//    RobotTrajectory trajectory(wps, mars);
+//
+//    DesmosOutput(trajectory).render();
 //    CSVOutput(trajectory, "test.csv").render();
+
+    bool hasTwoFiles = argc > 2;
+    if (!hasTwoFiles) {
+        LOGE("Creating a motion profile requires supplying both a robot spec and a profile spec." << std::endl << "Aborting.");
+        return -1;
+    }
+
+    std::string file;
+    if (readFile("aaa.csv", &file) < 0) return -1;
+    LOGD(file);
 }

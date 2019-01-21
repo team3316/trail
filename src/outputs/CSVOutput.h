@@ -5,28 +5,13 @@
 #include <string>
 #include <utility>
 
+#include "../trail/utils.h"
 #include "IOutput.h"
-
-#if defined(__APPLE__) || defined(__linux__) || defined(__unix__) // Unix
-    #include <unistd.h>
-    #define DELIMETER "/"
-    #define CWD getcwd
-#else // Windows
-    #include <direct.h>
-    #define DELIMETER "\\"
-    #define CWD _getcwd
-#endif
 
 namespace trail {
     class CSVOutput: public IOutput {
     private:
         std::ofstream mCSV;
-
-        std::string cwd() {
-            char temp[FILENAME_MAX];
-            CWD(temp, FILENAME_MAX);
-            return std::string(temp);
-        }
 
     public:
         CSVOutput(RobotTrajectory trajectory, const std::string &filename): IOutput(std::move(trajectory)) {

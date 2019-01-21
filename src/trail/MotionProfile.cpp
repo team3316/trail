@@ -85,6 +85,8 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
             );
         }
     }
+
+    return Eigen::Vector3d(-3316.0, -3316.0, -3316.0); // Error vector or something, just in case
 }
 
 double trail::MotionProfile::getTotalTime() {
