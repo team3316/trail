@@ -46,14 +46,14 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
 std::tuple<trail::Vector13d *, int> trail::RobotTrajectory::calculateTrajectory() {
     std::vector<trail::Spline> splines = this->generateSplines();
 
-    double totalDistance = 0;
+    double totalMiddleDistance = 0;
     for (auto spline: splines) {
-        totalDistance += lengthIntegral(0, 1, [&spline] (double t) {
+        totalMiddleDistance += lengthIntegral(0, 1, [&spline] (double t) {
             return spline.velocity(t);
         });
     }
 
-    this->mMotionProfile.setDistance(totalDistance);
+    this->mMotionProfile.setDistance(totalMiddleDistance);
     double totalTime = this->mMotionProfile.getTotalTime();
     int samplesPerSpline = (int) ceil(totalTime / DT / this->mNumOfSegments);
 
