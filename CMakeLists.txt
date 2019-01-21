@@ -14,6 +14,10 @@ endif (APPLE)
 ADD_SUBDIRECTORY(lib/gtest)
 enable_testing()
 
+# nlohmann/json
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+ADD_SUBDIRECTORY(lib/json)
+
 # Trail
 add_library(
         libtrail
@@ -25,7 +29,7 @@ add_library(
         src/trail/MotionProfile.cpp src/trail/MotionProfile.h
         src/outputs/IOutput.h src/outputs/DesmosOutput.h src/outputs/CSVOutput.h
 )
-target_link_libraries(libtrail Eigen3::Eigen)
+target_link_libraries(libtrail Eigen3::Eigen nlohmann_json::nlohmann_json)
 
 # Unit testing w/googletest
 add_executable(runTests test/main.cpp)
