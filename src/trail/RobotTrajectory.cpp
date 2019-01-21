@@ -20,6 +20,10 @@ trail::RobotTrajectory::RobotTrajectory() {
     this->mWaypoints = {};
 }
 
+std::string trail::RobotTrajectory::getName() {
+    return this->mName;
+}
+
 std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
     std::vector<trail::Spline> splines;
 
@@ -103,4 +107,28 @@ std::tuple<trail::Vector13d *, int> trail::RobotTrajectory::calculateTrajectory(
     }
 
     return std::make_tuple(curve, this->mNumOfSegments * samplesPerSpline);
+}
+
+trail::RobotTrajectory trail::RobotTrajectory::fromJSON(const std::string &filename, trail::Robot robot) {
+    std::string file;
+    if (readFile(filename, &file) < 0) {
+        LOGE("Couln't read " << filename << "; Aborting.");
+        exit(-1);
+    }
+
+    auto json = json::parse(file);
+
+    std::vector<std::string> requiredKeys = {
+        "name",
+        "waypoints"
+    };
+    for (auto key: requiredKeys) {
+        if (json.find(key) == json.end()) {
+            LOGE(key << " is missing from " << filename << ". Please add it and re-run trail. Aborting.");
+            exit(-1);
+        }
+    }
+
+    Waypoints wps = json.at("waypoints").get<Waypoints>();
+    return {wps, robot, json.at("name")};
 }

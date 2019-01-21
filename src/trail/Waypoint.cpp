@@ -44,13 +44,13 @@ double trail::Waypoint::distanceToPoint(trail::Waypoint otherPoint) {
 void trail::from_json(const json &json, trail::Waypoint &wp) {
    double x = json.at("point")[0],
           y = json.at("point")[1],
-          heading = json.at("angle");
+          heading = json.at("heading");
    wp = Waypoint(x, y, heading);
 }
 
 void trail::to_json(json &json, const trail::Waypoint &wp) {
     json = {
         {"point", {wp.getX(), wp.getY()}},
-        {"angle", wp.getHeading()}
+        {"heading", wp.getHeading()}
     };
 }

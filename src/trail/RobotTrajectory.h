@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <tuple>
+#include <string>
 
 #include "MotionProfile.h"
 #include "Robot.h"
@@ -21,16 +22,25 @@ namespace trail {
         trail::Waypoints mWaypoints;
         trail::Robot mRobot;
         int mNumOfSegments;
+        std::string mName = "path";
 
         std::vector<trail::Spline> generateSplines();
 
     public:
         RobotTrajectory(trail::Waypoints waypoints, trail::Robot robot);
 
+        RobotTrajectory(trail::Waypoints waypoints, trail::Robot robot, std::string name) : RobotTrajectory(waypoints, robot) {
+            this->mName.assign(name);
+        };
+
         RobotTrajectory();
 
+        std::string getName();
+
         std::tuple<trail::Vector13d *, int> calculateTrajectory();
-        int curveSize();
+        int curveSize() { return 0; };
+
+        static trail::RobotTrajectory fromJSON(const std::string &filename, trail::Robot robot);
     };
 }
 
