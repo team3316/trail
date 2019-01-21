@@ -67,7 +67,7 @@ namespace trail {
          */
         double getFreeSpeed();
 
-        static trail::Robot fromJSON(std::string filename);
+        static trail::Robot fromJSON(const std::string &filename);
     };
 }
 

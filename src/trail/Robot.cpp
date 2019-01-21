@@ -1,7 +1,11 @@
 #include <cmath>
 
+#include <nlohmann/json.hpp>
+
 #include "utils.h"
 #include "Robot.h"
+
+using json = nlohmann::json;
 
 trail::Robot::Robot(double mass, double baseWidth, double freeSpeed, double stallTorque, double gearRatio, double wheelRadius,
              int numOfDriveMotors) {
@@ -52,6 +56,38 @@ double trail::Robot::maxAcceleration() {
     return (n * ts * g) / (r * m);
 }
 
-trail::Robot trail::Robot::fromJSON(std::string filename) {
-    return trail::Robot();
+trail::Robot trail::Robot::fromJSON(const std::string &filename) {
+    std::string file;
+    if (readFile(filename, &file) < 0) {
+        LOGE("Couln't read " << filename << "; Aborting.");
+        exit(-1);
+    }
+
+    auto json = json::parse(file);
+
+    std::vector<std::string> requiredKeys = {
+        "mass",
+        "base-width",
+        "free-speed",
+        "stall-torque",
+        "gear-ratio",
+        "wheel-radius",
+        "motors"
+    };
+    for (auto key: requiredKeys) {
+        if (json.find(key) == json.end()) {
+            LOGE(key << " is missing from " << filename << ". Please add it and re-run trail. Aborting.");
+            exit(-1);
+        }
+    }
+
+    return {
+        json["mass"],
+        json["base-width"],
+        json["free-speed"],
+        json["stall-torque"],
+        json["gear-ratio"],
+        json["wheel-radius"],
+        json["motors"]
+    };
 }
