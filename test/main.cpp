@@ -11,8 +11,8 @@
 #define EPSILON 1E-4 // Accuracy to 4 decimal places is good enough for us
 #define EXPECT_PT_EQ(pt1, pt2) EXPECT_NEAR(pt1[0], pt2[0], EPSILON); \
     EXPECT_NEAR(pt1[1], pt2[1], EPSILON);
-#define EXPECT_WP_EQ(wp, pt) EXPECT_NEAR(wp.getX(), pt[6], EPSILON); \
-    EXPECT_NEAR(wp.getY(), pt[7], EPSILON);
+#define EXPECT_WP_EQ(wp, pt) EXPECT_NEAR(wp.getX(), pt[7], EPSILON); \
+    EXPECT_NEAR(wp.getY(), pt[8], EPSILON);
 
 using namespace trail;
 using namespace Eigen;
@@ -93,7 +93,7 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     RobotTrajectory trajectory(wps, mars);
 
-    Vector12d *curve; int len;
+    Vector13d *curve; int len;
     std::tie(curve, len) = trajectory.calculateTrajectory();
 
     EXPECT_WP_EQ(ORIGIN, curve[0]);
