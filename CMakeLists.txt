@@ -11,7 +11,7 @@ if (APPLE)
     add_definitions(-DGTEST_USE_OWN_TR1_TUPLE)
     add_definitions(-D__GLIBCXX__)
 endif (APPLE)
-ADD_SUBDIRECTORY(lib/gtest)
+ADD_SUBDIRECTORY(lib/googletest)
 enable_testing()
 
 # nlohmann/json
