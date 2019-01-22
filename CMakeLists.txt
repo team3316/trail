@@ -1,10 +1,12 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.12) # VS 2017 has CMake 3.12
 project(trail)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/cmake)
 
 # Eigen
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+set(EIGEN3_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen3)
+find_package(Eigen3 3.3 REQUIRED)
 
 # Googletest
 if (APPLE)
