@@ -33,10 +33,10 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
         double dist = current.distanceToPoint(next);
 
         PointVector points = {
-            {current.getX(), current.getY()},
+            current.toPoint(),
             current.firstDerivative(1.5 * dist),
             current.secondDerivative(),
-            {next.getX(), next.getY()},
+            next.toPoint(),
             next.firstDerivative(1.5 * dist),
             next.secondDerivative()
         };

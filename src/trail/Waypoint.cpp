@@ -23,6 +23,10 @@ double trail::Waypoint::getHeading() const {
     return this->mHeading;
 }
 
+Eigen::Vector2d trail::Waypoint::toPoint() const {
+  return Eigen::Vector2d(this->mX, this->mY);
+}
+
 Eigen::Vector2d trail::Waypoint::firstDerivative(double scale) {
     Eigen::Vector2d vec;
     vec << cos(this->mTheta), sin(this->mTheta);

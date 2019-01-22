@@ -43,6 +43,11 @@ namespace trail {
         double getHeading() const;
 
         /**
+         * @return The waypoint's coordinates in R^2 as an Eigen vector
+         */
+        Eigen::Vector2d toPoint() const;
+
+        /**
          * Calculates the required first derivative in order to keep the spline in the desired angle.
          * @param scale A parameter to scale the vector with. Default = 1.75
          * @return A scaled unit vector with the angle given to the constructor

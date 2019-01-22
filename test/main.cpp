@@ -41,12 +41,12 @@ TEST(RobotTest, MaxAcceleration) {
 
 TEST(SplineTest, ControlPoints) {
     PointVector cps = {
-        {0.0, 0.0}, // p0
-        {cos(radians(90)), sin(radians(90))}, // dp0
-        {-sin(radians(90)), cos(radians(90))}, // d2p0
-        {3.0, 4.0}, // p1
-        {cos(0.0), sin(0.0)}, // dp1
-        {-sin(0.0), cos(0.0)} // d2p1
+        Eigen::Vector2d(0.0, 0.0), // p0
+        Eigen::Vector2d(cos(radians(90)), sin(radians(90))), // dp0
+        Eigen::Vector2d(-sin(radians(90)), cos(radians(90))), // d2p0
+        Eigen::Vector2d(3.0, 4.0), // p1
+        Eigen::Vector2d(cos(0.0), sin(0.0)), // dp1
+        Eigen::Vector2d(-sin(0.0), cos(0.0)) // d2p1
     };
 
     Spline spline(cps);
@@ -96,9 +96,11 @@ TEST(TrajectoryTest, CreateTrajectory) {
     Vector13d *curve; int len;
     std::tie(curve, len) = trajectory.calculateTrajectory();
 
+    int sps = len / 2;
+
     EXPECT_WP_EQ(ORIGIN, curve[0]);
-    EXPECT_WP_EQ(Waypoint(3, 4, 90), curve[100]);
-    EXPECT_WP_EQ(Waypoint(3, 6, 90), curve[200]);
+    EXPECT_WP_EQ(Waypoint(3, 4, 90), curve[sps - 1]);
+    EXPECT_WP_EQ(Waypoint(3, 6, 90), curve[2 * sps - 1]);
 
     std::free(curve);
 }
