@@ -18,7 +18,7 @@ enable_testing()
 
 # nlohmann/json
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-ADD_SUBDIRECTORY(lib/json)
+ADD_SUBDIRECTORY(lib/modern-json)
 
 # Trail
 add_library(

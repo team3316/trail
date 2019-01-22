@@ -4,3 +4,6 @@
 [submodule "lib/eigen3"]
 	path = lib/eigen3
 	url = https://github.com/eigenteam/eigen-git-mirror.git
+[submodule "lib/modern-json"]
+	path = lib/modern-json
+	url = https://github.com/nlohmann/json.git
