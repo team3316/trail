@@ -41,12 +41,12 @@ TEST(RobotTest, MaxAcceleration) {
 
 TEST(SplineTest, ControlPoints) {
     PointVector cps = {
-        Eigen::Vector2d(0.0, 0.0), // p0
-        Eigen::Vector2d(cos(radians(90)), sin(radians(90))), // dp0
-        Eigen::Vector2d(-sin(radians(90)), cos(radians(90))), // d2p0
-        Eigen::Vector2d(3.0, 4.0), // p1
-        Eigen::Vector2d(cos(0.0), sin(0.0)), // dp1
-        Eigen::Vector2d(-sin(0.0), cos(0.0)) // d2p1
+        Vector2d(0.0, 0.0), // p0
+        Vector2d(cos(radians(90)), sin(radians(90))), // dp0
+        Vector2d(-sin(radians(90)), cos(radians(90))), // d2p0
+        Vector2d(3.0, 4.0), // p1
+        Vector2d(cos(0.0), sin(0.0)), // dp1
+        Vector2d(-sin(0.0), cos(0.0)) // d2p1
     };
 
     Spline spline(cps);
@@ -68,9 +68,7 @@ TEST(SplineTest, ControlPoints) {
 
 TEST(UtilsTest, LengthIntegral) {
     auto traj = [](double t) { // Using a constant term as a derivative for simplicity
-        Vector2d d;
-        d << 3, 4;
-        return d;
+        return Vector2d(3, 4);
     };
 
     double len = lengthIntegral(0, 1, traj);
@@ -93,7 +91,7 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     RobotTrajectory trajectory(wps, mars);
 
-    Vector13d *curve; int len;
+    Vector13d *curve = nullptr; int len = 0;
     std::tie(curve, len) = trajectory.calculateTrajectory();
 
     int sps = len / 2;
