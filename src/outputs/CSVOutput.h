@@ -19,18 +19,18 @@ namespace trail {
         }
 
         void render() override {
-            trail::Vector13d *curve;
+            trail::Vector17d *curve;
             int len;
             std::tie(curve, len) = this->mTrajectory.calculateTrajectory();
 
-            this->mCSV << "t,dt,s,v,a,theta,omega,x,y,xl,yl,xr,yr\n";
+            this->mCSV << "t,dt,s,v,a,theta,omega,x,y,xl,yl,xr,yr,sl,vl,sr,vr\n";
 
             for (int i = 0; i < len - 1; ++i) {
-                trail::Vector13d current = curve[i];
+                trail::Vector17d current = curve[i];
 
-                for (int j = 0; j < 13; ++j) {
+                for (int j = 0; j < 17; ++j) {
                     this->mCSV << std::to_string(current(j, 0));
-                    if (j != 12) this->mCSV << ",";
+                    if (j != 16) this->mCSV << ",";
                 }
 
                 this->mCSV << "\n";
