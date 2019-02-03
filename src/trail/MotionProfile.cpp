@@ -47,8 +47,8 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
 
         if (timeToCruise <= t && t <= 2 * timeToCruise) {
             return Eigen::Vector3d(
-                -this->mMaxAcceleration * t * t / 2, // Position
-                -this->mMaxAcceleration * t, // Velocity
+                this->mCruiseVelocity * t - this->mMaxAcceleration * t * t / 2, // Position
+                this->mCruiseVelocity - this->mMaxAcceleration * t, // Velocity
                 -this->mMaxAcceleration // Acceleration
             );
         }
@@ -57,7 +57,7 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
         double timeInCruise = (distCruise / this->mCruiseVelocity); // Acceleration in cruising velocity is zero
         double timeTotal = (2 * timeToCruise) + timeInCruise;
 
-        if (0 <= t && t < timeToCruise) { // Acceleration period
+        if (0 <= t && t <= timeToCruise) { // Acceleration period
             return Eigen::Vector3d(
                 this->mMaxAcceleration * t * t / 2, // Position
                 this->mMaxAcceleration * t, // Velocity
@@ -66,7 +66,7 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
         }
 
 
-        if (timeToCruise <= t && t < timeToCruise + timeInCruise) { // Cruising period
+        if (timeToCruise <= t && t <= timeToCruise + timeInCruise) { // Cruising period
             double matcher = (this->mMaxAcceleration * timeToCruise * timeToCruise / 2) - this->mCruiseVelocity * timeToCruise;
             return Eigen::Vector3d(
                 this->mCruiseVelocity * t + matcher, // Position
