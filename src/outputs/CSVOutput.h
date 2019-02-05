@@ -37,6 +37,7 @@ namespace trail {
             }
 
             this->mCSV.close();
+            std::free(curve);
         }
     };
 }

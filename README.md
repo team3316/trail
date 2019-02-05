@@ -57,10 +57,10 @@ Other inputs may be added in a future release.
 An example JSON is provided in the `example` folder.
 
 ### Using the tool
-After downloading and compiling, you should have an executable called `trail-cli` in the `build` folder.
+After downloading and compiling, you should have an executable called `trail` in the `build` folder.
 Using the JSON files you just created (let's call the robot one `robot.json` and the profile `path.json`), execute the following command:
 ```bash
-./trail-cli robot.json path.json
+./trail robot.json path.json
 ```
 This should create a new CSV file in the current directory with the name of the path and the profile data inside of it.
 
@@ -69,6 +69,6 @@ And that's basically it!
 Another option is to output the whole profile for viewing in [Desmos](https://desmos.com/calculator). In order to do that,
 you just need to use the `-d` or `--desmos` flag:
 ```bash
-./trail-cli robot.json path.json --desmos
+./trail robot.json path.json --desmos
 ```
 Then just copy and paste the output into Desmos and you should be able to see the graphs of the profile (distance vs time, x vs y...)
