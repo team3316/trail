@@ -89,6 +89,10 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
     return Eigen::Vector3d(-3316.0, -3316.0, -3316.0); // Error vector or something, just in case
 }
 
+Eigen::Vector4d trail::MotionProfile::calculateSCurve(double t) {
+    return {0,0,0,0};
+}
+
 double trail::MotionProfile::getTotalTime() {
     double timeToCruise = this->mCruiseVelocity / this->mMaxAcceleration; // This is also true for deceleration
     double distCruise = this->mFullDistance - this->mMinDistance; // The amount of distance we're going to do in cruise

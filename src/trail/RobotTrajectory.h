@@ -10,7 +10,7 @@
 #include "Waypoint.h"
 #include "Spline.h"
 
-#define DT 0.01 // Cycle time
+#define DT 0.02 // Cycle time
 
 namespace trail {
     using Waypoints = std::vector<trail::Waypoint>;
