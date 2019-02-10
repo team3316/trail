@@ -37,14 +37,9 @@ double trail::Robot::getFreeSpeed() {
 }
 
 double trail::Robot::timeToMaxVelocity(double i) {
-    double m = this->mMass,
-           vf = this->mFreeSpeed,
-           ts = this->mStallTorque,
-           g = this->mGearRatio,
-           r = this->mWheelRadius,
-           n = this->mNumOfDriveMotors;
-    double k1 = (2 * n * ts * g) / (r * m * vf);
-    return i / k1;
+    double af = this->maxAcceleration(),
+           vf = this->mFreeSpeed;
+    return vf / af;
 }
 
 double trail::Robot::maxAcceleration() {
@@ -53,7 +48,7 @@ double trail::Robot::maxAcceleration() {
            g = this->mGearRatio,
            r = this->mWheelRadius,
            n = this->mNumOfDriveMotors;
-    return (n * ts * g) / (r * m);
+    return (n * ts * g) / (r * m * 2.5);
 }
 
 trail::Robot trail::Robot::fromJSON(const std::string &filename) {
