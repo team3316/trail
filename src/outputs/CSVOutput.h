@@ -25,7 +25,7 @@ namespace trail {
 
             this->mCSV << "t,dt,s,v,a,theta,omega,x,y,xl,yl,xr,yr,sl,vl,sr,vr\n";
 
-            for (int i = 0; i < len - 1; ++i) {
+            for (int i = 0; i < len; ++i) {
                 trail::Vector17d current = curve[i];
 
                 for (int j = 0; j < 17; ++j) {
