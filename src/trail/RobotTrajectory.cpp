@@ -76,7 +76,8 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
 
             double theta = atan2(vel(1, 0), vel(0, 0));
             double velHypot = hypot(vel(0, 0), vel(1, 0));
-            double omega = velHypot == 0 ? 0 : (acc(1, 0) * vel(0, 0) - acc(0, 0) * vel(1, 0)) / velHypot;
+            double omega = degrees(velHypot == 0 ? 0 : (acc(1, 0) * vel(0, 0) - acc(0, 0) * vel(1, 0)) / velHypot);
+            double heading = 90 - degrees(theta);
 
             double r = this->mRobot.getBaseWidth() / 2.0;
             Eigen::Vector2d normal(-sin(theta), cos(theta));
@@ -91,7 +92,7 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
             vec(2, 0) = mpState(0, 0); // s(t)
             vec(3, 0) = mpState(1, 0); // v(t)
             vec(4, 0) = mpState(2, 0); // a(t)
-            vec(5, 0) = 90 - degrees(theta); // θ(t)
+            vec(5, 0) = heading; // θ(t)
             vec(6, 0) = omega; // ω(t)
             vec(7, 0) = pos(0, 0); // x(t)
             vec(8, 0) = pos(1, 0); // y(t)
@@ -99,9 +100,9 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
             vec(10, 0) = leftPos(1, 0); // y_l(t)
             vec(11, 0) = rightPos(0, 0); // x_r(t)
             vec(12, 0) = rightPos(1, 0); // y_r(t)
-            vec(13, 0) = mpState(0, 0) + theta * r; // s_l(t)
+            vec(13, 0) = mpState(0, 0) + heading * r; // s_l(t)
             vec(14, 0) = mpState(1, 0) + omega * r; // v_l(t)
-            vec(15, 0) = mpState(0, 0) - theta * r; // s_r(t)
+            vec(15, 0) = mpState(0, 0) - heading * r; // s_r(t)
             vec(16, 0) = mpState(1, 0) - omega * r; // v_r(t)
 
             curve[j + (samplesPerSpline * i)] = vec;
