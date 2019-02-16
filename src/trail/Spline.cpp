@@ -62,3 +62,14 @@ Eigen::Vector2d trail::Spline::velocity(double t) {
 Eigen::Vector2d trail::Spline::acceleration(double t) {
     return this->calculate(t, ACCELERATION);
 }
+
+double trail::Spline::curvature(double t) {
+    Eigen::Vector2d vel = this->velocity(t);
+
+    // Using determinant in order to compute the enumerator of the curvature
+    Eigen::Matrix2d accAndVel = Eigen::Matrix2d::Zero();
+    accAndVel.col(0) = this->acceleration(t);
+    accAndVel.col(1) = vel;
+
+    return -accAndVel.determinant() / pow(vel.norm(), 3);
+}

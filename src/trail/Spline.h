@@ -51,9 +51,17 @@ namespace trail {
         /**
          * Returns the spline's acceleration (second derivative) curve in spline param t.
          * @param t The spline parameter. 0 <= t <= 1
-         * @return A point in R^2, v(t)
+         * @return A point in R^2, a(t)
          */
         Eigen::Vector2d acceleration(double t);
+
+        /**
+         * Returns the spline's curvature in spline param t. Calculation of the curvature is done in the following way:
+         * k(t) = (v_x(t)a_y(t) - v_y(t)a_x(t)) / (v_x(t)^2 + v_y(t)^2)^1.5
+         * @param t The spline parameter. 0 <= t <= 1
+         * @return The local curvature of p(t)
+         */
+        double curvature(double t);
     };
 }
 
