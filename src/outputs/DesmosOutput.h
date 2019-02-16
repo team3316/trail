@@ -32,14 +32,19 @@ namespace trail {
                 std::cout << std::endl << std::flush;
             };
 
-            printCurveData("Trajectory", 7, 8);
             printCurveData("Heading", 0, 5);
             printCurveData("Angular Velocity", 0, 6);
             printCurveData("Distance", 0, 2);
+            printCurveData("Left Distance", 0, 13);
+            printCurveData("Right Distance", 0, 15);
             printCurveData("Velocity", 0, 3);
+            printCurveData("Left Velocity", 0, 14);
+            printCurveData("Right Velocity", 0, 16);
             printCurveData("Acceleration", 0, 4);
+            printCurveData("Trajectory", 7, 8);
             printCurveData("Left Trajectory", 9, 10);
             printCurveData("Right Trajectory", 11, 12);
+            printCurveData("Curvature", 0, 17);
 
             std::free(curve);
         }
