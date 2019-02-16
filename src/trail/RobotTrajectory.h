@@ -8,6 +8,7 @@
 #include "MotionProfile.h"
 #include "Robot.h"
 #include "Waypoint.h"
+#include "RobotOrigins.h"
 #include "Spline.h"
 
 #define DT 0.02 // Cycle time
@@ -25,6 +26,7 @@ namespace trail {
         std::string mName = "path";
 
         std::vector<trail::Spline> generateSplines();
+        std::vector<trail::RobotOrigins> generateOrigins();
 
     public:
         RobotTrajectory(trail::Waypoints waypoints, trail::Robot robot);
