@@ -91,7 +91,7 @@ TEST(TrajectoryTest, CreateTrajectory) {
 
     RobotTrajectory trajectory(wps, mars);
 
-    Vector17d *curve = nullptr; int len = 0;
+    Vector18d *curve = nullptr; int len = 0;
     std::tie(curve, len) = trajectory.calculateTrajectory();
 
     int sps = len / 2;
