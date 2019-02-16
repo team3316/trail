@@ -64,6 +64,7 @@ std::tuple<trail::Vector18d *, int> trail::RobotTrajectory::calculateTrajectory(
     auto curve = (trail::Vector18d *) std::malloc(sizeof(trail::Vector18d) * this->mNumOfSegments * samplesPerSpline);
     Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(samplesPerSpline, 0, 1);
 
+    double r = this->mRobot.getBaseWidth() / 2.0;
     double lastTime = 0;
     for (int i = 0; i < this->mNumOfSegments; ++i) {
         trail::Spline current = splines[i];
@@ -80,7 +81,6 @@ std::tuple<trail::Vector18d *, int> trail::RobotTrajectory::calculateTrajectory(
             double omega = degrees(velHypot == 0 ? 0 : (acc(1, 0) * vel(0, 0) - acc(0, 0) * vel(1, 0)) / velHypot);
             double heading = 90 - degrees(theta);
 
-            double r = this->mRobot.getBaseWidth() / 2.0;
             Eigen::Vector2d normal(-sin(theta), cos(theta));
             Eigen::Vector2d leftPos = pos + r * normal;
             Eigen::Vector2d rightPos = pos - r * normal;
@@ -101,10 +101,10 @@ std::tuple<trail::Vector18d *, int> trail::RobotTrajectory::calculateTrajectory(
             vec(10, 0) = leftPos(1, 0); // y_l(t)
             vec(11, 0) = rightPos(0, 0); // x_r(t)
             vec(12, 0) = rightPos(1, 0); // y_r(t)
-            vec(13, 0) = mpState(0, 0) + heading * r; // s_l(t)
-            vec(14, 0) = mpState(1, 0) + omega * r; // v_l(t)
-            vec(15, 0) = mpState(0, 0) - heading * r; // s_r(t)
-            vec(16, 0) = mpState(1, 0) - omega * r; // v_r(t)
+            vec(13, 0) = (leftPos - leftOrigin).norm(); // s_l(t)
+            vec(14, 0) = 0.0; // v_l(t)
+            vec(15, 0) = (rightPos - rightOrigin).norm(); // s_r(t)
+            vec(16, 0) = 0.0; // v_r(t)
             vec(17, 0) = curvature; // k(t)
 
             curve[j + (samplesPerSpline * i)] = vec;
