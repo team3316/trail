@@ -14,7 +14,7 @@
 
 namespace trail {
     using Waypoints = std::vector<trail::Waypoint>;
-    using Vector17d = Eigen::Matrix<double, 17, 1>;
+    using Vector18d = Eigen::Matrix<double, 18, 1>;
 
     class RobotTrajectory {
     private:
@@ -37,7 +37,7 @@ namespace trail {
 
         std::string getName();
 
-        std::tuple<trail::Vector17d *, int> calculateTrajectory();
+        std::tuple<trail::Vector18d *, int> calculateTrajectory();
         int curveSize() { return 0; };
 
         static trail::RobotTrajectory fromJSON(const std::string &filename, trail::Robot robot);

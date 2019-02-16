@@ -47,7 +47,7 @@ std::vector<trail::Spline> trail::RobotTrajectory::generateSplines() {
     return splines;
 }
 
-std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory() {
+std::tuple<trail::Vector18d *, int> trail::RobotTrajectory::calculateTrajectory() {
     std::vector<trail::Spline> splines = this->generateSplines();
 
     double totalMiddleDistance = 0;
@@ -61,7 +61,7 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
     double totalTime = this->mMotionProfile.getTotalTime();
     int samplesPerSpline = (int) ceil(totalTime / DT / this->mNumOfSegments);
 
-    auto curve = (trail::Vector17d *) std::malloc(sizeof(trail::Vector17d) * this->mNumOfSegments * samplesPerSpline);
+    auto curve = (trail::Vector18d *) std::malloc(sizeof(trail::Vector18d) * this->mNumOfSegments * samplesPerSpline);
     Eigen::ArrayXd interval = Eigen::ArrayXd::LinSpaced(samplesPerSpline, 0, 1);
 
     double lastTime = 0;
@@ -73,6 +73,7 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
             Eigen::Vector2d pos = current.position(percentage);
             Eigen::Vector2d vel = current.velocity(percentage);
             Eigen::Vector2d acc = current.acceleration(percentage);
+            double curvature = current.curvature(percentage);
 
             double theta = atan2(vel(1, 0), vel(0, 0));
             double velHypot = hypot(vel(0, 0), vel(1, 0));
@@ -86,7 +87,7 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
 
             Eigen::Vector4d mpState = this->mMotionProfile.calculate(lastTime);
 
-            trail::Vector17d vec;
+            trail::Vector18d vec;
             vec(0, 0) = lastTime; // t
             vec(1, 0) = DT; // dt
             vec(2, 0) = mpState(0, 0); // s(t)
@@ -104,6 +105,7 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
             vec(14, 0) = mpState(1, 0) + omega * r; // v_l(t)
             vec(15, 0) = mpState(0, 0) - heading * r; // s_r(t)
             vec(16, 0) = mpState(1, 0) - omega * r; // v_r(t)
+            vec(17, 0) = curvature; // k(t)
 
             curve[j + (samplesPerSpline * i)] = vec;
 
