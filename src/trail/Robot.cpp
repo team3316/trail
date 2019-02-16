@@ -48,7 +48,7 @@ double trail::Robot::maxAcceleration() {
            g = this->mGearRatio,
            r = this->mWheelRadius,
            n = this->mNumOfDriveMotors;
-    return (n * ts * g) / (r * m * 2.5);
+    return (n * ts * g) / (r * m);
 }
 
 trail::Robot trail::Robot::fromJSON(const std::string &filename) {
