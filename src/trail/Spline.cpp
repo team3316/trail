@@ -8,7 +8,7 @@
  * @param x The number to take the power of
  * @param p The power to use
  * @param diff The differentiation number - meaning, 0th derivative, 1st derivative, 2nd derivative...
- * @return If the result should be constant, then the coefficient that it's suposed to have. If it should be 0 then 0.
+ * @return If the result should be constant, then the coefficient that it's supposed to have. If it should be 0 then 0.
  *         Otherwise, the diff-th derivative of x^p.
  */
 double pow_diff(double x, int p, int diff) {
