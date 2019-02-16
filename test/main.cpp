@@ -30,7 +30,7 @@ static Robot mars(
 TEST(RobotTest, TimeToMax) {
     double ttvf = mars.timeToMaxVelocity();
 
-    EXPECT_NEAR(ttvf, 0.4202, EPSILON);
+    EXPECT_NEAR(ttvf, 0.2101, EPSILON);
 }
 
 TEST(RobotTest, MaxAcceleration) {
