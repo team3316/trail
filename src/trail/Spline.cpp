@@ -35,7 +35,7 @@ Eigen::Matrix<double, 1, 6> trail::Spline::polynomialBasis(double t, CurveType t
             pow_diff(t, 3, type),
             pow_diff(t, 2, type),
             pow_diff(t, 1, type),
-            type == VELOCITY ? 0 : 1;
+            type == POSITION ? 1 : 0;
     return time;
 }
 
