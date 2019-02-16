@@ -84,7 +84,7 @@ std::tuple<trail::Vector17d *, int> trail::RobotTrajectory::calculateTrajectory(
             Eigen::Vector2d leftPos = pos + r * normal;
             Eigen::Vector2d rightPos = pos - r * normal;
 
-            Eigen::Vector3d mpState = this->mMotionProfile.calculate(lastTime);
+            Eigen::Vector4d mpState = this->mMotionProfile.calculate(lastTime);
 
             trail::Vector17d vec;
             vec(0, 0) = lastTime; // t

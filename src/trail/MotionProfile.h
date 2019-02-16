@@ -34,7 +34,7 @@ namespace trail {
 
         void setDistance(double distance);
 
-        Eigen::Vector3d calculate(double t);
+        Eigen::Vector4d calculate(double t);
         Eigen::Vector4d calculateSCurve(double t);
         double getTotalTime();
     };

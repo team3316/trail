@@ -24,7 +24,7 @@ trail::MotionProfile::MotionProfile() {
 }
 
 void trail::MotionProfile::setDistance(double distance) {
-    this->mFullDistance = distance < this->mMinDistance ? this->mMinDistance : distance;
+    this->mFullDistance = distance <= this->mMinDistance ? this->mMinDistance : distance;
 }
 
 double trail::MotionProfile::distanceToVelocity(double startVel, double endVel) {
@@ -33,23 +33,25 @@ double trail::MotionProfile::distanceToVelocity(double startVel, double endVel) 
     return dvsq / (2 * accSigned);
 }
 
-Eigen::Vector3d trail::MotionProfile::calculate(double t) {
+Eigen::Vector4d trail::MotionProfile::calculate(double t) {
     double timeToCruise = this->mCruiseVelocity / this->mMaxAcceleration; // This is also true for deceleration
 
     if (this->mMinDistance == this->mFullDistance) { // Shouldn't use the other implementation
         if (0 <= t && t <= timeToCruise) {
-            return Eigen::Vector3d(
+            return Eigen::Vector4d(
                 this->mMaxAcceleration * t * t / 2, // Position
                 this->mMaxAcceleration * t, // Velocity
-                this->mMaxAcceleration // Acceleration
+                this->mMaxAcceleration, // Acceleration
+                0.0 // Jerk
             );
         }
 
         if (timeToCruise <= t && t <= 2 * timeToCruise) {
-            return Eigen::Vector3d(
+            return Eigen::Vector4d(
                 this->mCruiseVelocity * t - this->mMaxAcceleration * t * t / 2, // Position
                 this->mCruiseVelocity - this->mMaxAcceleration * t, // Velocity
-                -this->mMaxAcceleration // Acceleration
+                -this->mMaxAcceleration, // Acceleration
+                0.0 // Jerk
             );
         }
     } else {
@@ -58,35 +60,38 @@ Eigen::Vector3d trail::MotionProfile::calculate(double t) {
         double timeTotal = (2 * timeToCruise) + timeInCruise;
 
         if (0 <= t && t <= timeToCruise) { // Acceleration period
-            return Eigen::Vector3d(
+            return Eigen::Vector4d(
                 this->mMaxAcceleration * t * t / 2, // Position
                 this->mMaxAcceleration * t, // Velocity
-                this->mMaxAcceleration // Acceleration
+                this->mMaxAcceleration, // Acceleration
+                0.0 // Jerk
             );
         }
 
 
         if (timeToCruise <= t && t <= timeToCruise + timeInCruise) { // Cruising period
             double matcher = (this->mMaxAcceleration * timeToCruise * timeToCruise / 2) - this->mCruiseVelocity * timeToCruise;
-            return Eigen::Vector3d(
+            return Eigen::Vector4d(
                 this->mCruiseVelocity * t + matcher, // Position
                 this->mCruiseVelocity, // Velocity
-                0 // Acceleration
+                0.0, // Acceleration
+                0.0 // Jerk
             );
         }
 
         if (timeToCruise + timeInCruise <= t && t <= timeTotal) { // Deceleration period
             double dt = t - timeTotal;
             double matcher = this->mCruiseVelocity * (timeTotal - timeToCruise);
-            return Eigen::Vector3d(
+            return Eigen::Vector4d(
                 -this->mMaxAcceleration * dt * dt / 2 + matcher, // Position
                 -this->mMaxAcceleration * dt, // Velocity
-                -this->mMaxAcceleration // Acceleration
+                -this->mMaxAcceleration, // Acceleration
+                0.0 // Jerk
             );
         }
     }
 
-    return Eigen::Vector3d(-3316.0, -3316.0, -3316.0); // Error vector or something, just in case
+    return Eigen::Vector4d(-3316.0, -3316.0, -3316.0, 0.0); // Error vector or something, just in case
 }
 
 Eigen::Vector4d trail::MotionProfile::calculateSCurve(double t) {
