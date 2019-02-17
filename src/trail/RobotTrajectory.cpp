@@ -67,11 +67,15 @@ std::tuple<trail::Vector18d *, int> trail::RobotTrajectory::calculateTrajectory(
     std::vector<trail::Spline> splines = this->generateSplines();
     std::vector<trail::RobotOrigins> origins = this->generateOrigins();
 
-    double totalMiddleDistance = 0;
+    double totalMiddleDistance;
+    std::vector<double> distances;
     for (auto spline: splines) {
-        totalMiddleDistance += lengthIntegral(0, 1, [&spline] (double t) {
+        double currentDist = lengthIntegral(0, 1, [&spline] (double t) {
             return spline.velocity(t);
         });
+
+        totalMiddleDistance += currentDist;
+        distances.emplace_back(currentDist);
     }
 
     this->mMotionProfile.setDistance(totalMiddleDistance);
