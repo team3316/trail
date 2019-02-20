@@ -5,13 +5,14 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
+#include <vector>
 
 #if defined(__APPLE__) || defined(__linux__) || defined(__unix__) // Unix
     #include <unistd.h>
     #define DELIMETER "/"
     #define CWD getcwd
 #else // Windows
-#include <direct.h>
+    #include <direct.h>
     #define DELIMETER "\\"
     #define CWD _getcwd
 #endif
@@ -50,6 +51,7 @@ int readFile(const std::string &filename, std::string *content);
  * @return An approximated segment length, in the segment's units, using Simpson's rule.
  */
 double lengthIntegral(double t0, double t1, std::function<Eigen::Vector2d (double)> df, int n = LENGTH_INTEGRAL_SAMPLES);
+std::vector<double> lengthIntegrals(double t0, double t1, std::function<std::vector<Eigen::Vector2d> (double)> dfs, int n = LENGTH_INTEGRAL_SAMPLES);
 
 /**
  * Unit conversion - meters to wheel rotations.
