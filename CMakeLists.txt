@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12) # VS 2017 has CMake 3.12
+cmake_minimum_required(VERSION 3.10) # VS 2017 has CMake 3.12
 project(trail)
 
 set(CMAKE_CXX_STANDARD 14)
